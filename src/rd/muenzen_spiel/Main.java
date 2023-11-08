@@ -59,7 +59,7 @@ public class Main {
     }
 
     static int mensch_zieht(int m) {
-        System.out.println("Bitte deine Münzwahl (1, 2, 3 eingeben): ");
+        System.out.println(color("Bitte deine Münzwahl (1, 2, 3 eingeben): ", ConsoleColors.BLACK, ConsoleColors.CYAN_BACKGROUND));
         Scanner in = new Scanner(System.in);
         int ziehenZahl = in.nextInt();
         System.out.println("Du ziehst " + ziehenZahl + " Münzen");
