@@ -2,7 +2,6 @@ package rd.fractal_1;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -81,7 +80,7 @@ public class PaintMe extends JFrame {
 
     /**
      * Returns the mod squared
-     * @param g
+     * @param
      */
     double mod2(Point2D.Double z) {
         return z.x * z.x + z.y * z.y;
@@ -89,7 +88,6 @@ public class PaintMe extends JFrame {
 
     /**
      * Computes sequence elements until mod exceeds threshold or max iteration is reached
-     * @param g
      */
     int computeIterations(Point2D.Double z0, Point2D.Double constant, int maxIteration) {
         Point2D.Double zn = z0;
@@ -105,7 +103,6 @@ public class PaintMe extends JFrame {
 
     /**
      * Computes pixels color
-     * @param g
      */
     void render(Point2D.Double renderSize, Point2D.Double constant, int maxIterations) {
         this.setTitle("constX = " + constant.x + " constY = " + constant.y);
