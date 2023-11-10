@@ -22,9 +22,9 @@ public class PaintMe extends JFrame {
     private JPanel contentPanel = new JPanel();
 
     double constantXMin = -0.67;
-    double constantXMax = -constantXMin;
-    double constantYMin = -0.67;
-    double constantYMax = -constantYMin;
+    double constantXMax = -0.51;
+    double constantYMin = constantXMin;
+    double constantYMax = constantXMax;
     double constantX = constantXMin;
     double constantY = constantYMin;
     double deltaX = 0.001;
