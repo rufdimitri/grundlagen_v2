@@ -124,11 +124,11 @@ public class PaintMe extends JFrame {
 
     Color gradientGetColor(double gradientValue, double maxGradientValue) {
         int rgbPart = (int)Math.round(255*3 * gradientValue/maxGradientValue);
-        int green = rgbPart > 255 ? 255 : rgbPart;
+        int green = Math.min(rgbPart, 255);
         rgbPart -= green;
-        int blue = rgbPart > 255 ? 255 : rgbPart;
+        int blue = Math.min(rgbPart, 255);
         rgbPart -= blue;
-        int red = rgbPart > 255 ? 255 : rgbPart;
+        int red = Math.min(rgbPart, 255);
         rgbPart -= red;
 
         return new Color(red, green, blue);
