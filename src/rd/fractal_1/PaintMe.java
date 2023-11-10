@@ -18,8 +18,8 @@ public class PaintMe extends JFrame {
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     private BufferedImage graphicsContext;
-    private JPanel contentPanel = new JPanel();
     private JLabel contextRender;
+    private JPanel contentPanel = new JPanel();
 
     double constantXMin = -0.67;
     double constantXMax = -constantXMin;
@@ -27,8 +27,8 @@ public class PaintMe extends JFrame {
     double constantYMax = -constantYMin;
     double constantX = constantXMin;
     double constantY = constantYMin;
-    double deltaX = 0.0001;
-    double deltaY = 0.0001;
+    double deltaX = 0.001;
+    double deltaY = 0.001;
     Runnable swingTask = () -> {
         SwingUtilities.invokeLater(this.renderTask);
     };
@@ -68,7 +68,7 @@ public class PaintMe extends JFrame {
         renderTask.run();
     }
 
-    Point2D.Double computeNext(Point2D.Double current, Point2D.Double constant) {
+    Point2D.Double computeNextJuliaMenge(Point2D.Double current, Point2D.Double constant) {
         //Zn²
         double zr = current.x * current.x - current.y * current.y;
         double zi = 2.0 * current.x * current.y;
@@ -76,6 +76,8 @@ public class PaintMe extends JFrame {
         //Add constant
         return new Point2D.Double(zr + constant.x, zi + constant.y);
     }
+
+
 
     /**
      * Returns the mod squared
@@ -93,7 +95,7 @@ public class PaintMe extends JFrame {
         Point2D.Double zn = z0;
         int iteration = 0;
         while (mod2(zn) < 4.0 && iteration < maxIteration) {
-            zn = computeNext(zn ,constant);
+            zn = computeNextJuliaMenge(zn ,constant);
             //System.out.println("x = " + zn.x + " y = " + zn.y);
             iteration++;
         }
