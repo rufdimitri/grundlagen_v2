@@ -171,13 +171,10 @@ public class PaintMe extends JFrame {
 
     void setPixelColor(int x, int y, Color color) {
         Graphics2D g2d = (Graphics2D) graphicsContext.getGraphics();
-        Color prevColor = g2d.getColor();
-        synchronized (g2d) {
-            g2d.setColor(color);
-            Rectangle2D.Double pixel = new Rectangle2D.Double(graphicX(x), graphicY(y), 1, 1);
-            g2d.fill(pixel);
-            g2d.setColor(prevColor);
-        }
+        int gX = graphicX(x);
+        int gY = graphicY(y);
+        g2d.setColor(color);
+        g2d.drawLine(gX, gY, gX, gY);
     }
 
     void paintBackground(Graphics g) {
