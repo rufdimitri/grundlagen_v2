@@ -2,6 +2,10 @@ package rd.fractal_1;
 
 import java.awt.geom.Point2D;
 
+/**
+ * Calculates colors for N-horizontal rows
+ * N = yEnd-yBegin
+ */
 public class RenderTask implements Runnable {
     static int count;
     int id = count++;

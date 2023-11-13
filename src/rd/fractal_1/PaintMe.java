@@ -37,12 +37,10 @@ public class PaintMe extends JFrame {
     double constantYMax = constantXMax;
     double constantX = constantXMin;
     double constantY = constantYMin;
-    double deltaX = 0.00001;
-    double deltaY = 0.00001;
-    Runnable swingTask = () -> {
-        SwingUtilities.invokeLater(this.renderTask);
-    };
-    Runnable renderTask = () -> {
+    double deltaX = 0.0001;
+    double deltaY = 0.0001;
+    Runnable swingInvokeTask = () -> SwingUtilities.invokeLater(this.renderCycle);
+    Runnable renderCycle = () -> {
         if (deltaX > 0 && constantX + deltaX > constantXMax || deltaX < 0 && constantX + deltaX < constantXMin) {
             deltaX = -deltaX;
         }
@@ -53,7 +51,7 @@ public class PaintMe extends JFrame {
         }
         constantY += deltaY;
         render(new Point2D.Double(width, height), new Point2D.Double(constantX, constantY), 1000);
-        scheduledExecutor.schedule(this.swingTask, 1, TimeUnit.MILLISECONDS);
+        scheduledExecutor.schedule(this.swingInvokeTask, 1, TimeUnit.MILLISECONDS);
     };
 
     public PaintMe() {
@@ -72,7 +70,11 @@ public class PaintMe extends JFrame {
         this.pack();
 
         setVisible(true);
-        renderTask.run();
+
+        for (int t = 0; t < threads; ++t) {
+            renderTasks.add(new RenderTask());
+        }
+        renderCycle.run();
     }
 
     Point2D.Double computeNextJuliaMenge(Point2D.Double current, Point2D.Double constant) {
@@ -117,16 +119,11 @@ public class PaintMe extends JFrame {
         // Compute the scale of the coordinates
         double scale = 0.5 / (renderSize.y / 2.0);
         int sizePerThread = (int) Math.round(renderSize.y) / threads;
-        if (renderTasks.isEmpty()) {
-            for (int t = 0; t < threads; ++t) {
-                renderTasks.add(new RenderTask());
-            }
-        }
         List<Future<?>> futures = new ArrayList<>();
         for (int t = 0; t < threads; ++t) {
             int yBegin = t * sizePerThread;
             int yEnd = (t + 1) * sizePerThread;
-            if (t+1 == threads) {
+            if (t+1 == threads) { //last thread takes the rest to the end (renderSize.y)
                 yEnd = (int) Math.round(renderSize.y);
             }
             futures.add(
