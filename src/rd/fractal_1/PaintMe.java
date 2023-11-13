@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class PaintMe extends JFrame {
             deltaY = -deltaY;
         }
         constantY += deltaY;
-        render(new Point2D.Double(width, height), new Point2D.Double(constantX, constantY), 1000);
+        render(new Point2D.Double(width, height), new Point2D.Double(constantX, constantY), 100);
         scheduledExecutor.schedule(this.swingInvokeTask, 1, TimeUnit.MILLISECONDS);
     };
 
@@ -149,12 +148,12 @@ public class PaintMe extends JFrame {
 
     Color gradientGetColor(double gradientValue, double maxGradientValue) {
         int rgbPart = (int) Math.round(255 * 3 * gradientValue / maxGradientValue);
-        int green = Math.min(rgbPart, 255);
-        rgbPart -= green;
-        int blue = Math.min(rgbPart, 255);
-        rgbPart -= blue;
         int red = Math.min(rgbPart, 255);
         rgbPart -= red;
+        int blue = Math.min(rgbPart, 255);
+        rgbPart -= blue;
+        int green = Math.min(rgbPart, 255);
+        rgbPart -= green;
 
         return new Color(red, green, blue);
     }
