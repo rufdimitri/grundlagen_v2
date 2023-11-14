@@ -8,13 +8,17 @@ import java.awt.event.MouseMotionListener;
 
 public class Leinwand extends JFrame implements MouseListener, MouseMotionListener {
     private Pinsel pinsel = null;
+    private Pinsel eraser = null;
     private int width, height;
     boolean background = false;
+    private boolean mouseLeftDown = false;
+    private boolean mouseRightDown = false;
 
     public Leinwand() {
         super("Leinwand");
 
         pinsel = new Pinsel(0,0,7,7, Color.WHITE);
+        eraser = new Pinsel(0,0,50,50, Color.BLACK);
 
         width = height = 500;
         setSize(width, height);
@@ -36,11 +40,17 @@ public class Leinwand extends JFrame implements MouseListener, MouseMotionListen
             background = true;
         }
         pinsel.paint(g);
+        eraser.paint(g);
     }
 
-    public void male(int x, int y) {
+    public void drawP(int x, int y) {
         pinsel.setxPos(x);
         pinsel.setyPos(y);
+    }
+
+    public void eraseP(int x, int y) {
+        eraser.setxPos(x);
+        eraser.setyPos(y);
     }
 
     @Override
@@ -51,15 +61,26 @@ public class Leinwand extends JFrame implements MouseListener, MouseMotionListen
     @Override
     public void mousePressed(MouseEvent e) {
         System.out.println("pressed");
-        male(e.getX(), e.getY());
-        pinsel.resetPrevPos();
-        System.out.println(pinsel);
+        System.out.println(e.getButton());
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            mouseLeftDown = true;
+            drawP(e.getX(), e.getY());
+            pinsel.resetPrevPos();
+            System.out.println(pinsel);
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            mouseRightDown = true;
+        }
         repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         System.out.println("released");
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            mouseLeftDown = false;
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            mouseRightDown = false;
+        }
     }
 
     @Override
@@ -74,8 +95,12 @@ public class Leinwand extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        System.out.println(pinsel);
-        male(e.getX(), e.getY());
+        if (mouseLeftDown) {
+            drawP(e.getX(), e.getY());
+        }
+        if (mouseRightDown) {
+            eraseP(e.getX(), e.getY());
+        }
         repaint();
     }
 
