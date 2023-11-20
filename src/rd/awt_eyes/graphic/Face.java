@@ -1,10 +1,10 @@
 package rd.awt_eyes.graphic;
 
 
+import rd.awt_eyes.PanelX;
+
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.security.spec.EllipticCurve;
 
 public class Face  {
     private int width;
@@ -14,6 +14,12 @@ public class Face  {
     private Color color;
     private Eye lEye;
     private Eye rEye;
+
+    public PanelX getPanelX() {
+        return panelX;
+    }
+
+    private PanelX panelX;
 
     public int getWidth() {
         return width;
@@ -48,11 +54,12 @@ public class Face  {
         this.y = y;
     }
 
-    public Face(int x, int y, int width, int height, Color color, Eye lEye, Eye rEye) {
-        this.width = width;
-        this.height = height;
+    public Face(PanelX panelX, int x, int y, int width, int height, Color color, Eye lEye, Eye rEye) {
+        this.panelX = panelX;
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.color = color;
         this.lEye = lEye;
         this.rEye = rEye;
@@ -66,13 +73,13 @@ public class Face  {
         rEye.setY(getEyePosY());
     }
 
-    public static Face createFace(int x, int y, int width, int height, Color faceColor, Color eyeColor, Color pupilColor) {
+    public static Face createFace(PanelX panelX, int x, int y, int width, int height, Color faceColor, Color eyeColor, Color pupilColor) {
         int pupilSize = width / 10;
         Pupil lPupil = new Pupil(pupilSize, pupilSize, pupilColor);
         Pupil rPupil = new Pupil(pupilSize, pupilSize, pupilColor);
         Eye lEye = new Eye(pupilSize * 3, (int)Math.round(pupilSize * 1.5), eyeColor, lPupil);
         Eye rEye = new Eye(pupilSize * 3, (int)Math.round(pupilSize * 1.5), eyeColor, rPupil);
-        return new Face(x, y, width, height, faceColor, lEye, rEye);
+        return new Face(panelX, x, y, width, height, faceColor, lEye, rEye);
     }
 
     int getLEyePosX() {
@@ -88,11 +95,26 @@ public class Face  {
     }
 
     public void updatePupilPos(int mouseX, int mouseY) {
-        updatePupilPos(mouseX, mouseY, lEye);
-        updatePupilPos(mouseX, mouseY, rEye);
+        updatePupilPos(mouseX, mouseY, lEye, this);
+        updatePupilPos(mouseX, mouseY, rEye, this);
     }
 
-    static void updatePupilPos(int mouseX, int mouseY, Eye eye) {
+
+    static void updatePupilPos(int mouseX, int mouseY, Eye eye, Face face) {
+        Pupil pupil = eye.getPupil();
+        double distMax = (double)face.width / 2;
+        int dXMouseEye = mouseX-eye.getX();
+        int dYMouseEye = mouseY-eye.getY();
+        double distFact =  Math.sqrt(dXMouseEye*dXMouseEye + dYMouseEye*dYMouseEye);
+        double m = distFact / distMax;
+        //int
+    }
+
+
+
+
+
+    static void updatePupilPos2(int mouseX, int mouseY, Eye eye, Face face) {
         Pupil pupil = eye.getPupil();
         int dX = mouseX - eye.getX();
         int dY = mouseY - eye.getY();

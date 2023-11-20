@@ -16,7 +16,7 @@ public class PanelX extends JPanel {
     public PanelX(int width, int height) {
         setSize(width, height);
         System.out.format("getWidth: %d\n", getWidth());
-        face = Face.createFace(getWidth() / 2, getHeight() / 2, getWidth() -300, getHeight()-300, Color.YELLOW, Color.LIGHT_GRAY, Color.BLUE);
+        face = Face.createFace(this, getWidth() / 2, getHeight() / 2, getWidth() -300, getHeight()-300, Color.YELLOW, Color.LIGHT_GRAY, Color.BLUE);
     }
 
     @Override
