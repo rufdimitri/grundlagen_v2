@@ -1,0 +1,1 @@
+java -cp "out\production\Grundlagen_v2" rd.fractal_1.Main
