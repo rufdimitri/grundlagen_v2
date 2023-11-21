@@ -127,7 +127,7 @@ public class SpaceGame extends JPanel implements ActionListener {
         } else {
             speedY *= 0.9;  //if no keys pressed, automatic slow down
         }
-        System.out.println(speedX + " speed " + speedY);
+
         //speedY += acceleration/2; //gravitation
         spaceship.position.x += speedX;
         spaceship.position.y += speedY;
@@ -143,7 +143,7 @@ public class SpaceGame extends JPanel implements ActionListener {
         if (spaceship.position.y > height) {
             spaceship.position.y -= height;
         }
-        System.out.println(speedX + " speed " + speedY);
+
         repaint();
     }
 }
