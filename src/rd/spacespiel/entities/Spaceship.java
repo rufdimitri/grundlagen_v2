@@ -1,10 +1,10 @@
-package rd.spacespiel;
+package rd.spacespiel.entities;
 
 import java.awt.geom.Point2D;
 
 public class Spaceship {
-    Point2D.Double position;
-    int size;
+    public Point2D.Double position;
+    public int size;
 
     public Spaceship(Point2D.Double position, int size) {
         this.position = position;

@@ -1,5 +1,8 @@
 package rd.spacespiel;
 
+import rd.spacespiel.entities.Spaceship;
+import rd.spacespiel.entities.Star;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,10 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
+import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class SpaceGame extends JPanel implements ActionListener {
 
     private Spaceship spaceship = new Spaceship(new Point2D.Double(40, 40), 40);
+    private java.util.Queue<Star> stars = new LinkedBlockingQueue<>();
+    private final static int starProbability = 5;
     private Color background;
     private boolean isLeftPressed, isRightPressed, isUpPressed, isDownPressed;
     private double speedX = 0;
@@ -20,6 +27,7 @@ public class SpaceGame extends JPanel implements ActionListener {
     private int delay = 40;
     private Timer timer = new Timer(delay, this);
     private int width, height;
+    private Random random = new Random();
 
 
     public SpaceGame(int w, int h) {
@@ -66,6 +74,7 @@ public class SpaceGame extends JPanel implements ActionListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        starsDraw(g, stars);
         spaceshipDraw(g, spaceship);
     }
 
@@ -91,6 +100,32 @@ public class SpaceGame extends JPanel implements ActionListener {
         g2d.fillPolygon(pointsX2, pointsY2, pointsX2.length);
         g2d.setColor(Color.CYAN);
         g2d.drawPolygon(pointsX2, pointsY2, pointsX2.length);
+    }
+
+    static void starsDraw(Graphics g, java.util.Collection<Star> stars) {
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setStroke(new BasicStroke(2));
+        for(Star star : stars) {
+            int halfSize = star.size/2;
+            g2d.setColor(Color.WHITE);
+            g2d.fillOval((int)Math.round(star.position.x - halfSize),
+                    (int)Math.round(star.position.y - halfSize),
+                    star.size,
+                    star.size
+            );
+            g2d.setColor(Color.CYAN);
+            g2d.drawOval((int)Math.round(star.position.x - halfSize),
+                    (int)Math.round(star.position.y - halfSize),
+                    star.size,
+                    star.size
+            );
+        }
+    }
+
+    static void removeCollisions(Spaceship spaceship, java.util.Collection<Star> stars) {
+        for(Star star : stars) {
+            //TODO
+        }
     }
 
     @Override
@@ -142,6 +177,10 @@ public class SpaceGame extends JPanel implements ActionListener {
         }
         if (spaceship.position.y > height) {
             spaceship.position.y -= height;
+        }
+
+        if (random.nextInt(100)+1 < starProbability) {
+            stars.add(new Star(new Point2D.Double(random.nextInt(width), random.nextInt(height)), random.nextInt(5, 30)));
         }
 
         repaint();
