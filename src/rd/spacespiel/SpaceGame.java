@@ -21,15 +21,15 @@ import rd.spacespiel.entities.Star;
 
 public class SpaceGame extends JPanel implements ActionListener {
 
-	private Spaceship spaceship = new Spaceship(new Point2D.Double(40, 40), 40);
+	private Spaceship spaceship = new Spaceship(new Point2D.Double(0, 0), 40);
 	private java.util.Queue<Star> stars = new LinkedBlockingQueue<>();
-	private final static int starProbability = 5;
+	private final static double starProbability = 0.5;
 	private Color background;
 	private boolean isLeftPressed, isRightPressed, isUpPressed, isDownPressed;
 	private double speedX = 0;
 	private double speedY = 0;
-	private double maxSpeed = 20;
-	private double acceleration = 1.0;
+	private double maxSpeed = 50;
+	private double acceleration = 4.0;
 	private int delay = 40;
 	private Timer timer = new Timer(delay, this);
 	private int width, height;
@@ -38,6 +38,8 @@ public class SpaceGame extends JPanel implements ActionListener {
 	public SpaceGame(int w, int h) {
 		width = w;
 		height = h;
+		this.spaceship.position.x = width / 2;
+		this.spaceship.position.y = height / 2;
 		this.background = StartWindow.backgroundColor;
 		setBackground(background);
 		setFocusable(true);
@@ -153,7 +155,7 @@ public class SpaceGame extends JPanel implements ActionListener {
 				}
 			}
 		} else {
-			speedX *= 0.9; // if no keys pressed, automatic slow down
+			speedX *= 0.95; // if no keys pressed, automatic slow down
 		}
 		if (isUpPressed || isDownPressed) {
 			if (isUpPressed) {
@@ -169,7 +171,7 @@ public class SpaceGame extends JPanel implements ActionListener {
 				}
 			}
 		} else {
-			speedY *= 0.9;  // if no keys pressed, automatic slow down
+			speedY *= 0.95;  // if no keys pressed, automatic slow down
 		}
 
 		// speedY += acceleration/2; //gravitation
@@ -188,13 +190,18 @@ public class SpaceGame extends JPanel implements ActionListener {
 			spaceship.position.y -= height;
 		}
 
-		if (random.nextInt(100) + 1 < starProbability) {
+		if (random.nextDouble(100) <= starProbability) {
 			stars.add(
-					new Star(new Point2D.Double(random.nextInt(width), random.nextInt(height)), random.nextInt(5, 30)));
+					new Star(new Point2D.Double(random.nextInt(width), random.nextInt(height)), random.nextInt(5, 30))
+			);
 		}
 
 		removeCollisions(spaceship, stars);
 
 		repaint();
+	}
+
+	public void dispose(){
+		timer.stop();
 	}
 }

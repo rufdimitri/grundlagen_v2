@@ -5,6 +5,7 @@ import javax.swing.*;
 public class SpaceWindow extends JFrame {
     private int width;
     private int height;
+    private SpaceGame spaceGame;
 
     public SpaceWindow(String title, int width, int height) {
         super(title);
@@ -22,6 +23,13 @@ public class SpaceWindow extends JFrame {
         int borderLeft = getInsets().left;
         int borderBottom = getInsets().bottom;
 
-        add(new SpaceGame(width-borderLeft-borderRight, height-borderBottom-titleHeight));
+        spaceGame = new SpaceGame(width-borderLeft-borderRight, height-borderBottom-titleHeight);
+        add(spaceGame);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        spaceGame.dispose();
     }
 }
