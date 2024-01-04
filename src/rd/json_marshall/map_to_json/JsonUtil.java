@@ -3,10 +3,8 @@ package rd.json_marshall.map_to_json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 public class JsonUtil <T> {
@@ -52,14 +50,33 @@ public class JsonUtil <T> {
         }
     }
 
-    public String marshallMapToString(T object) {
-        Type typeObject = new TypeToken<HashMap>() {}.getType();
-        try (Writer writer = new FileWriter(fileName, StandardCharsets.UTF_8)) {
+    public static String marshallToJson(Object object, Type typeObject) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (Writer writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8)) {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
+            gson.toJson(object, typeObject, writer);
+            //gson.toJson(object, writer);
 
-            gson.toJson(object, writer);
+            writer.flush();
+            return baos.toString(StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T unmarshallFromJson(String json, Type typeObject) {
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+            //gson.toJson(object, typeObject, writer);
+            //return gson.fromJson(json, objClass);
+            return gson.fromJson(json, typeObject);
+
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

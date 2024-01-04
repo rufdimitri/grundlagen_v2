@@ -1,0 +1,47 @@
+"C:\Program Files\Java\jdk-21.0.1\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.2.5\lib\idea_rt.jar=51642:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.2.5\bin" -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath C:\Users\admin\IdeaProjects\grundlagen_v2\out\production\Grundlagen_v2;C:\Users\admin\.m2\repository\junit\junit\4.13.1\junit-4.13.1.jar;C:\Users\admin\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\admin\IdeaProjects\grundlagen_v2\lib\gson-2.10.1.jar;C:\Users\admin\IdeaProjects\grundlagen_v2\lib\junit-4.13.1.jar;C:\Users\admin\IdeaProjects\grundlagen_v2\lib\hamcrest-core-1.3.jar rd.json_marshall.map_to_json.MainInMapToJson
+-------------------- simpleMap -------------
+{
+  "Abcde": 5,
+  "Abc": 3,
+  "Abcd": 4
+}
+- list -
+[
+  2,
+  7,
+  11
+]
+- cachedFilesPerFileIdentityHashCode -
+{
+  "777": [
+    {
+      "pagesContent": [
+        "page1",
+        "page2"
+      ],
+      "fileIdentity": {
+        "filename": "file.txt",
+        "filepath": "folder1",
+        "size": 256,
+        "modifiedDate": 512
+      },
+      "lastAccessTime": 559
+    },
+    {
+      "pagesContent": [
+        "page1",
+        "page2"
+      ],
+      "fileIdentity": {
+        "filename": "file.txt",
+        "filepath": "folder1",
+        "size": 256,
+        "modifiedDate": 512
+      },
+      "lastAccessTime": 559
+    }
+  ]
+}
+[CachedPdfFile[pagesContent=[page1, page2], fileIdentity=FileIdentity[filename=file.txt, filepath=folder1, size=256, modifiedDate=512], lastAccessTime=559], CachedPdfFile[pagesContent=[page1, page2], fileIdentity=FileIdentity[filename=file.txt, filepath=folder1, size=256, modifiedDate=512], lastAccessTime=559]]
+
+Process finished with exit code 0
