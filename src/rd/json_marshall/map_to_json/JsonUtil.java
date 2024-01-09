@@ -50,6 +50,13 @@ public class JsonUtil <T> {
         }
     }
 
+    /** Creates JSON-string from object
+     * @param object object that should be marshalled to JSON-string
+     * @param typeObject  type of the object
+     *  can be created using <code>{@literal new TypeToken<PUT-HERE-CLASS-WITH-GENERIC-PARAMETERS>() {}.getType()}</code>
+     *  <br/><br/>Example: <code>{@literal new TypeToken<Map<Integer, String>>() {}.getType()}</code>
+     * @return unmarshalled object from json of same type as typeObject
+     */
     public static String marshallToJson(Object object, Type typeObject) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,16 +74,19 @@ public class JsonUtil <T> {
         }
     }
 
+    /** Creates object from JSON-string
+     * @param json JSON-string representing the object to create
+     * @param typeObject  typeObject  type of the object
+     *      can be created using <code>{@literal new TypeToken<PUT-HERE-CLASS-WITH-GENERIC-PARAMETERS>() {}.getType()}</code>
+     *      <br/><br/>Example: <code>{@literal new TypeToken<Map<Integer, String>>() {}.getType()}</code>
+     * @return unmarshalled object from json of same type as typeObject
+     */
     public static <T> T unmarshallFromJson(String json, Type typeObject) {
         try {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
-            //gson.toJson(object, typeObject, writer);
-            //return gson.fromJson(json, objClass);
             return gson.fromJson(json, typeObject);
-
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

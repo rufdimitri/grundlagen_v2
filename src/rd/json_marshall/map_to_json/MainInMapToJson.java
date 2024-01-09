@@ -1,7 +1,10 @@
 package rd.json_marshall.map_to_json;
 
 import com.google.gson.reflect.TypeToken;
+import rd.json_marshall.map_to_json.model.CachedPdfFile;
+import rd.json_marshall.map_to_json.model.FileIdentity;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,15 +17,16 @@ public class MainInMapToJson {
         String jsonString = JsonUtil.marshallToJson(simpleMap(), new TypeToken<Map<String,Integer>>() {}.getType());
         System.out.println("-------------------- simpleMap -------------\n" + jsonString);
 
-        System.out.println("- list -\n" + JsonUtil.marshallToJson(list(), new TypeToken<List<Integer>>() {}.getType()));
+        System.out.println("---- list ----\n" + JsonUtil.marshallToJson(list(), new TypeToken<List<Integer>>() {}.getType()));
 
         //jsonString = JsonUtil.marshallToJson(cachedFilesPerFileIdentityHashCode(), new TypeToken<List<Integer>>() {}.getType());
         //System.out.println("- cachedFilesPerFileIdentityHashCode -\n" + jsonString );
         //Map<Integer, List<CachedPdfFile>> cachedFilesPerFileIdentityHashCode = JsonUtil.unmarshallFromJson(jsonString, Map.class, null);
         //System.out.println(cachedFilesPerFileIdentityHashCode.get(777));
 
+        System.out.println("---- cachedFilesPerFileIdentityHashCode -----");
         jsonString = JsonUtil.marshallToJson(cachedFilesPerFileIdentityHashCode(), new TypeToken<Map<Integer, List<CachedPdfFile>>>() {}.getType());
-        System.out.println("- cachedFilesPerFileIdentityHashCode -\n" + jsonString );
+        System.out.println(jsonString);
 
         Map<Integer, List<CachedPdfFile>> cachedFilesPerFileIdentityHashCode2 = JsonUtil.unmarshallFromJson(jsonString, new TypeToken<Map<Integer, List<CachedPdfFile>>>() {}.getType());
         System.out.println(cachedFilesPerFileIdentityHashCode2.get(777));

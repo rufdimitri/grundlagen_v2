@@ -1,4 +1,4 @@
-package rd.json_marshall.map_to_json;
+package rd.json_marshall.map_to_json.model;
 
 import java.util.List;
 
