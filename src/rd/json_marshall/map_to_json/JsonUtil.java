@@ -7,24 +7,32 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
-public class JsonUtil <T> {
-    public Class<T> objectClass;
+public class JsonUtil<T> {
+    public Type objectType;
 
-    private JsonUtil(Class<T> objectClass) {
-        this.objectClass = objectClass;
+    private JsonUtil(Type objectType) {
+        this.objectType = objectType;
     }
 
-    public static <T> JsonUtil<T> of (Class<T> objectClass) {
-        return new JsonUtil<>(objectClass);
+    /** @param objectType type of the object
+     *      can be created using <code>{@literal new TypeToken<PUT-HERE-CLASS-WITH-GENERIC-PARAMETERS>() {}.getType()}</code>
+     *      <br/><br/>Example: <code>{@literal new TypeToken<Map<Integer, String>>() {}.getType()}</code>
+     */
+    public static <T> JsonUtil<T> of (Type objectType) {
+        return new JsonUtil<>(objectType);
     }
 
+    /** Creates object from JSON-string
+     * @param fileName where the JSON-string, representing the object to create, is saved     *
+     * @return unmarshalled object from json of same type as typeObject
+     */
     public T unmarshallFromFile(String fileName) {
         try (Reader reader = new FileReader(fileName, StandardCharsets.UTF_8)) {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
 
-            return gson.fromJson(reader, objectClass);
+            return gson.fromJson(reader, objectType);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +52,7 @@ public class JsonUtil <T> {
             builder.setPrettyPrinting();
             Gson gson = builder.create();
 
-            gson.toJson(object, writer);
+            gson.toJson(object, objectType, writer);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -58,17 +66,11 @@ public class JsonUtil <T> {
      * @return unmarshalled object from json of same type as typeObject
      */
     public static String marshallToJson(Object object, Type typeObject) {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (Writer writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8)) {
+        try {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
-            gson.toJson(object, typeObject, writer);
-            //gson.toJson(object, writer);
-
-            writer.flush();
-            return baos.toString(StandardCharsets.UTF_8);
+            return gson.toJson(object, typeObject);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
