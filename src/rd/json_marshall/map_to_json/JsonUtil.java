@@ -45,13 +45,15 @@ public class JsonUtil {
         }
     }
 
-    public static <T> void marshallToFile(String fileName, T object, TypeToken<T> typeToken) {
+    /** Creates JSON-string from object and writes it to file
+     * @param fileName path to file, where to write JSON-string
+     * @param object object that should be marshalled to JSON-string
+     */
+    public static <T> void marshallToFile(String fileName, T object) {
         try (Writer writer = new FileWriter(fileName, StandardCharsets.UTF_8)) {
             GsonBuilder builder = new GsonBuilder();
-            builder.setPrettyPrinting();
             Gson gson = builder.create();
-
-            gson.toJson(object, typeToken.getType(), writer);
+            gson.toJson(object, writer);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,10 +61,7 @@ public class JsonUtil {
 
     /** Creates JSON-string from object
      * @param object object that should be marshalled to JSON-string
-     * @param typeToken type of the object
-     *   can be created using <code>{@literal new TypeToken<PUT-HERE-CLASS-WITH-GENERIC-PARAMETERS>() {}}</code>
-     *   <br/><br/>Example: <code>{@literal new TypeToken<Map<Integer, String>>() {}}</code>
-     * @return unmarshalled object from json of same type as typeObject
+     * @return JSON-string representing the object
      */
     public static <T> String marshallToJson(T object) {
         try {
