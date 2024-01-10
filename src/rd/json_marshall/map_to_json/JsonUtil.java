@@ -7,6 +7,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Util-Class for JSON marshall and unmarshall using Gson library
+ * version: 240110
+ */
 public class JsonUtil {
     private JsonUtil() {
     }
